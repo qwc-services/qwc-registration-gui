@@ -1,0 +1,84 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+
+{%- block styles %}
+  {{ super() }}
+  <style type="text/css">
+    {# use default button style if inactive #}
+    .btn-group-toggle .btn-success, .btn-group-toggle .btn-danger {
+      color: #333;
+      background-color: #fff;
+      border-color: #ccc;
+    }
+    .btn-group-toggle .btn-success.active {
+      color: #fff;
+      background-color: #449d44;
+      border-color: #398439;
+    }
+    .btn-group-toggle .btn-danger.active {
+      color: #fff;
+      background-color: #c9302c;
+      border-color: #ac2925;
+    }
+  </style>
+{%- endblock styles %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block container %}
+  <h1>{{ title }}</h1>
+
+  <form class="form" action="" method="post">
+    {{ form.csrf_token }}
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <td colspan="3">
+            <h4>Registrable groups and memberships for user <span class="text-info">{{ username }}</span></h4>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for rg in form.registrable_groups %}
+          {% if rg['pending'] %}
+            <tr class="{{ 'danger' if rg['member'] else 'active' }}">
+              <td title="Request pending">
+                <a href="#" class="btn btn-sm btn-link disabled" role="button">
+                  {{ utils.icon('hourglass', ['text-muted']) }}
+                </a>
+                {{ utils.icon('ok', ['text-success']) if rg['member'] }} <b class="text-muted">{{ rg['title'] }}</b>
+              </td>
+              <td>{{ rg['description'] | safe }}</td>
+            </tr>
+          {% elif rg['member'] %}
+            <tr class="success">
+              <td>
+                <div class="btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-sm btn-danger" title="Unsubscribe from group">
+                    <input name="unsubscribe_groups" value="{{ rg['id'] }}" type="checkbox" autocomplete="off"> {{ utils.icon('minus') }}
+                  </label>
+                  {{ utils.icon('ok', ['text-success']) }} <b>{{ rg['title'] }}</b>
+                </div>
+              </td>
+              <td>{{ rg['description'] | safe }}</td>
+            </tr>
+          {% else %}
+            <tr>
+              <td>
+                <div class="btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-sm btn-success" title="Request group membership">
+                    <input name="groups" value="{{ rg['id'] }}" type="checkbox" autocomplete="off"> {{ utils.icon('plus') }}
+                  </label>
+                  <b>{{ rg['title'] }}</b>
+                </div>
+              </td>
+              <td>{{ rg['description'] | safe }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <input type="submit" value="Submit application form" class="btn btn-primary">
+  </form>
+{% endblock %}

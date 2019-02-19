@@ -1,0 +1,28 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "bootstrap/base.html" %}
+
+{%- block head %}
+  <title>{% block title %}{% endblock title %}</title>
+
+  {%- block metas %}
+    {{ super() }}
+  {%- endblock metas %}
+
+  {%- block styles %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  {%- endblock styles %}
+{%- endblock head %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+  <br/>
+  {{ utils.flashed_messages() }}
+
+  <div class="container">
+    {% block container %}
+    {% endblock %}
+  </div>
+{% endblock %}
