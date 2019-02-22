@@ -1,6 +1,8 @@
 from datetime import datetime
+import os
 
 from flask import abort, flash, Flask, redirect, render_template, url_for
+from flask_mail import Message
 from sqlalchemy.orm import joinedload
 
 from qwc_config_db.config_models import ConfigModels
@@ -15,11 +17,13 @@ class RegistrationGUI:
     requests.
     """
 
-    def __init__(self, logger):
+    def __init__(self, mail, logger):
         """Constructor
 
+        :param flask_mail.Mail mail: Application mailer
         :param Logger logger: Application logger
         """
+        self.mail = mail
         self.logger = logger
 
         # load ORM models for ConfigDB
@@ -31,6 +35,11 @@ class RegistrationGUI:
             'registration_requests'
         )
         self.User = self.config_models.model('users')
+
+        # get recipients for admin notifications
+        self.admin_recipients = os.environ.get('ADMIN_RECIPIENTS')
+        if self.admin_recipients:
+            self.admin_recipients = self.admin_recipients.split(',')
 
     def register(self, identity):
         """Show application form and submit membership requests.
@@ -57,6 +66,7 @@ class RegistrationGUI:
         # eager load relations
         query = query.options(joinedload(self.RegistrableGroup.group))
         registrable_groups = query.all()
+        registrable_groups_titles = {}
 
         # query pending registration requests for this user
         query = session.query(self.RegistrationRequest) \
@@ -90,6 +100,10 @@ class RegistrationGUI:
                 'pending': pending,
                 'member': member
             })
+
+            # add lookup for registrable group titles
+            registrable_groups_titles[registrable_group.id] = \
+                registrable_group.title
 
             if not pending:
                 if member:
@@ -136,6 +150,10 @@ class RegistrationGUI:
                     session.commit()
                     session.close()
 
+                    self.send_admin_notification(
+                        user, form, registrable_groups_titles
+                    )
+
                     flash('Application form submitted', 'success')
                     return redirect(url_for('register'))
                 else:
@@ -148,6 +166,51 @@ class RegistrationGUI:
             'registration.html', title="Group Registration", form=form,
             username=user.name
         )
+
+    def send_admin_notification(self, user, form, registrable_groups_titles):
+        """Send mail with registration requests to admin users.
+
+        :param User user: User instance
+        :param FlaskForm form: Registration form
+        :param obj registrable_groups_titles: Lookup for registrable group
+                                              titles by id
+        """
+        # collect requested registrable group titles
+        groups = [
+            registrable_groups_titles.get(id) for id in form.groups.data
+        ]
+        unsubscribe_groups = [
+            registrable_groups_titles.get(id)
+            for id in form.unsubscribe_groups.data
+        ]
+
+        if (
+            (not groups and not unsubscribe_groups)
+            or not self.admin_recipients
+        ):
+            # no requests or no admin recipients
+            return
+
+        # send notification to admin users
+        try:
+            msg = Message(
+                "New group registration requests",
+                recipients=self.admin_recipients
+            )
+            # set message body from template
+            msg.body = render_template(
+                'admin_notification.txt', user=user, groups=groups,
+                unsubscribe_groups=unsubscribe_groups
+            )
+
+            # send message
+            self.logger.debug(msg)
+            self.mail.send(msg)
+        except Exception as e:
+            self.logger.error(
+                "Could not send notification to admins %s:\n%s" %
+                (self.admin_recipients, e)
+            )
 
     def username(self, identity):
         """Extract username from identity.

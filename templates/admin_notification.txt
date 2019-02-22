@@ -1,0 +1,15 @@
+Hello
+
+User '{{ user.name }}' has submitted new group registration requests.
+{% if groups | length > 0 %}
+Requested groups:
+  {%- for group in groups %}
+  * {{ group }}
+  {%- endfor %}
+{% endif -%}
+{% if unsubscribe_groups | length > 0 %}
+Unsubscribe from groups:
+  {%- for group in unsubscribe_groups %}
+  * {{ group }}
+  {%- endfor %}
+{% endif -%}

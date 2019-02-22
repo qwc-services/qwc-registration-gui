@@ -26,6 +26,29 @@ sslmode=disable
 Place this file in your home directory, or set the `PGSERVICEFILE` environment variable to point to the file.
 
 
+Configuration
+-------------
+
+### Mailer
+
+Set the `ADMIN_RECIPIENTS` environment variable to a comma separated list of admin users who should be notified of new registration requests (default: `None`).
+
+[Flask-Mail](https://pythonhosted.org/Flask-Mail/) is used for sending mails like user notifications. These are the available options:
+* `MAIL_SERVER`: default ‘localhost’
+* `MAIL_PORT`: default 25
+* `MAIL_USE_TLS`: default False
+* `MAIL_USE_SSL`: default False
+* `MAIL_DEBUG`: default app.debug
+* `MAIL_USERNAME`: default None
+* `MAIL_PASSWORD`: default None
+* `MAIL_DEFAULT_SENDER`: default None
+* `MAIL_MAX_EMAILS`: default None
+* `MAIL_SUPPRESS_SEND`: default app.testing
+* `MAIL_ASCII_ATTACHMENTS`: default False
+
+In addition the standard Flask `TESTING` configuration option is used by Flask-Mail in unit tests.
+
+
 Usage
 -----
 
@@ -59,4 +82,4 @@ Install requirements:
 
 Start local service:
 
-    python server.py
+    MAIL_SUPPRESS_SEND=True MAIL_DEFAULT_SENDER=from@example.com ADMIN_RECIPIENTS=admin@example.com python server.py
