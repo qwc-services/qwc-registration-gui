@@ -1,0 +1,24 @@
+{
+  "locale": "en",
+  "registration": {
+    "title": "Group Registration",
+    "subtitle": "Registrable groups and memberships for user %(username)s",
+    "pending": "Request pending",
+    "subscribe": "Request group membership",
+    "unsubscribe": "Unsubscribe from group",
+    "submit": "Submit application form",
+    "flash": {
+      "submitted": "Application form submitted",
+      "no_group_selected": "No group selected",
+      "failed": "Failed to submit application form"
+    }
+  },
+  "admin_notification": {
+    "subject": "New group registration requests",
+    "salutation": "Hello",
+    "description": "User '%(username)s' has submitted new group registration requests.",
+    "requested_groups": "Requested groups:",
+    "unsubscribed_groups": "Unsubscribe from groups:",
+    "footer": ""
+  }
+}

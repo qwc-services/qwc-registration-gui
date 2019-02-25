@@ -33,7 +33,7 @@ Configuration
 
 Set the `ADMIN_RECIPIENTS` environment variable to a comma separated list of admin users who should be notified of new registration requests (default: `None`).
 
-[Flask-Mail](https://pythonhosted.org/Flask-Mail/) is used for sending mails like user notifications. These are the available options:
+[Flask-Mail](https://pythonhosted.org/Flask-Mail/) is used for sending mails like admin notifications. These are the available options:
 * `MAIL_SERVER`: default ‘localhost’
 * `MAIL_PORT`: default 25
 * `MAIL_USE_TLS`: default False
@@ -47,6 +47,12 @@ Set the `ADMIN_RECIPIENTS` environment variable to a comma separated list of adm
 * `MAIL_ASCII_ATTACHMENTS`: default False
 
 In addition the standard Flask `TESTING` configuration option is used by Flask-Mail in unit tests.
+
+### Translations
+
+Translation strings are stored in a JSON file for each locale in `translations/<locale>.json` (e.g. `en.json`). Add any new languages as new JSON files.
+
+Set the `DEFAULT_LOCALE` environment variable to choose the locale for the application form and notifications (default: `en`).
 
 
 Usage

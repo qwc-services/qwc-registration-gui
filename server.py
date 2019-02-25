@@ -1,7 +1,7 @@
 import logging
 import os
 
-from flask import Flask
+from flask import Flask, json
 from flask_bootstrap import Bootstrap
 from flask_jwt_extended import get_jwt_identity, jwt_optional
 from flask_mail import Mail
@@ -46,8 +46,53 @@ def mail_config_from_env(app):
 mail_config_from_env(app)
 mail = Mail(app)
 
+# Load translation strings
+DEFAULT_LOCALE = os.environ.get('DEFAULT_LOCALE', 'en')
+translations = {}
+try:
+    locale = DEFAULT_LOCALE
+    path = os.path.join(app.root_path, 'translations/%s.json' % locale)
+    with open(path, 'r') as f:
+        translations[locale] = json.load(f)
+except Exception as e:
+    app.logger.error(
+        "Failed to load translation strings for locale '%s' from %s\n%s"
+        % (locale, path, e)
+    )
+
+
+# Setup translation helper
+@app.template_filter('i18n')
+def i18n(value, locale=DEFAULT_LOCALE):
+    """Lookup string in translations.
+
+    Usage:
+        Python: i18n('example.path_to.string')
+        Jinja2 filter for templates: 'example.path_to.string' | i18n
+
+    :param str value: Dot-separated path to translation string
+    :param str locale: Override locale (optional)
+    """
+    # traverse translations dict for locale
+    parts = value.split('.')
+    lookup = translations.get(locale, {})
+    for part in parts:
+        if isinstance(lookup, dict):
+            # get next lookup level
+            lookup = lookup.get(part)
+        else:
+            # lookup level too deep
+            lookup = None
+        if lookup is None:
+            # return input value if not found
+            lookup = value
+            break
+
+    return lookup
+
+
 # create Registration GUI
-registration_gui = RegistrationGUI(mail, app.logger)
+registration_gui = RegistrationGUI(mail, i18n, app.logger)
 
 
 @app.route('/register', methods=['GET', 'POST'])

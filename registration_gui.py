@@ -17,13 +17,15 @@ class RegistrationGUI:
     requests.
     """
 
-    def __init__(self, mail, logger):
+    def __init__(self, mail, i18n, logger):
         """Constructor
 
         :param flask_mail.Mail mail: Application mailer
+        :param callable i18n: Translation helper method
         :param Logger logger: Application logger
         """
         self.mail = mail
+        self.i18n = i18n
         self.logger = logger
 
         # load ORM models for ConfigDB
@@ -154,17 +156,20 @@ class RegistrationGUI:
                         user, form, registrable_groups_titles
                     )
 
-                    flash('Application form submitted', 'success')
+                    flash(self.i18n('registration.flash.submitted'), 'success')
                     return redirect(url_for('register'))
                 else:
-                    flash('No group selected', 'warning')
+                    flash(
+                        self.i18n('registration.flash.no_group_selected'),
+                        'warning'
+                    )
             else:
                 self.logger.warning(form.errors)
-                flash('Failed to submit application form', 'error')
+                flash(self.i18n('registration.flash.failed'), 'error')
 
         return render_template(
-            'registration.html', title="Group Registration", form=form,
-            username=user.name
+            'registration.html', title=self.i18n('registration.title'),
+            form=form, username=user.name
         )
 
     def send_admin_notification(self, user, form, registrable_groups_titles):
@@ -194,7 +199,7 @@ class RegistrationGUI:
         # send notification to admin users
         try:
             msg = Message(
-                "New group registration requests",
+                self.i18n('admin_notification.subject'),
                 recipients=self.admin_recipients
             )
             # set message body from template

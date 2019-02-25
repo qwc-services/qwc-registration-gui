@@ -34,7 +34,8 @@
       <thead>
         <tr>
           <td colspan="3">
-            <h4>Registrable groups and memberships for user <span class="text-info">{{ username }}</span></h4>
+            {% set highlight_username = '<span class="text-info">' | safe + username + '</span>' | safe %}
+            <h4>{{ "registration.subtitle" | i18n | format(username=highlight_username) | safe }}</h4>
           </td>
         </tr>
       </thead>
@@ -42,7 +43,7 @@
         {% for rg in form.registrable_groups %}
           {% if rg['pending'] %}
             <tr class="{{ 'danger' if rg['member'] else 'active' }}">
-              <td title="Request pending">
+              <td title="{{ "registration.pending" | i18n }}">
                 <a href="#" class="btn btn-sm btn-link disabled" role="button">
                   {{ utils.icon('hourglass', ['text-muted']) }}
                 </a>
@@ -54,7 +55,7 @@
             <tr class="success">
               <td>
                 <div class="btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-sm btn-danger" title="Unsubscribe from group">
+                  <label class="btn btn-sm btn-danger" title="{{ "registration.unsubscribe" | i18n }}">
                     <input name="unsubscribe_groups" value="{{ rg['id'] }}" type="checkbox" autocomplete="off"> {{ utils.icon('minus') }}
                   </label>
                   {{ utils.icon('ok', ['text-success']) }} <b>{{ rg['title'] }}</b>
@@ -66,7 +67,7 @@
             <tr>
               <td>
                 <div class="btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-sm btn-success" title="Request group membership">
+                  <label class="btn btn-sm btn-success" title="{{ "registration.subscribe" | i18n }}">
                     <input name="groups" value="{{ rg['id'] }}" type="checkbox" autocomplete="off"> {{ utils.icon('plus') }}
                   </label>
                   <b>{{ rg['title'] }}</b>
@@ -79,6 +80,6 @@
       </tbody>
     </table>
 
-    <input type="submit" value="Submit application form" class="btn btn-primary">
+    <input type="submit" value="{{ "registration.submit" | i18n }}" class="btn btn-primary">
   </form>
 {% endblock %}

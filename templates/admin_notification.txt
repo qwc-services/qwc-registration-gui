@@ -1,15 +1,16 @@
-Hello
+{{ 'admin_notification.salutation' | i18n }}
 
-User '{{ user.name }}' has submitted new group registration requests.
+{{ 'admin_notification.description' | i18n | format(username=user.name) }}
 {% if groups | length > 0 %}
-Requested groups:
+{{ 'admin_notification.requested_groups' | i18n }}
   {%- for group in groups %}
   * {{ group }}
   {%- endfor %}
 {% endif -%}
 {% if unsubscribe_groups | length > 0 %}
-Unsubscribe from groups:
+{{ 'admin_notification.unsubscribed_groups' | i18n }}
   {%- for group in unsubscribe_groups %}
   * {{ group }}
   {%- endfor %}
-{% endif -%}
+{% endif %}
+{{ 'admin_notification.footer' | i18n }}

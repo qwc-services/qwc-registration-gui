@@ -1,0 +1,24 @@
+{
+  "locale": "de",
+  "registration": {
+    "title": "Antragsformular",
+    "subtitle": "Beantragbare Gruppen und Mitgliedschaften für den Benutzer %(username)s",
+    "pending": "Antrag in Bearbeitung",
+    "subscribe": "Mitgliedschaft beantragen",
+    "unsubscribe": "Gruppe verlassen",
+    "submit": "Antragsformular abschicken",
+    "flash": {
+      "submitted": "Antragsformular abgeschickt",
+      "no_group_selected": "Keine Gruppe ausgewählt",
+      "failed": "Antragsformular konnte nicht abgeschickt werden"
+    }
+  },
+  "admin_notification": {
+    "subject": "Neue Anträge für Gruppen-Registrierung",
+    "salutation": "Hallo",
+    "description": "Der Benutzer '%(username)s' hat neue Mitgliedschaften beantragt.",
+    "requested_groups": "Beantragte Gruppen:",
+    "unsubscribed_groups": "Zu verlassende Gruppen:",
+    "footer": ""
+  }
+}
