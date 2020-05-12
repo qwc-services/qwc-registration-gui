@@ -1,7 +1,7 @@
 import logging
 import os
 
-from flask import Flask, json
+from flask import Flask, json, jsonify
 from flask_bootstrap import Bootstrap
 from flask_jwt_extended import get_jwt_identity, jwt_optional
 from flask_mail import Mail
@@ -99,6 +99,18 @@ registration_gui = RegistrationGUI(mail, i18n, app.logger)
 @jwt_optional
 def register():
     return registration_gui.register(get_jwt_identity())
+
+
+""" readyness probe endpoint """
+@app.route("/ready", methods=['GET'])
+def ready():
+    return jsonify({"status": "OK"})
+
+
+""" liveness probe endpoint """
+@app.route("/healthz", methods=['GET'])
+def healthz():
+    return jsonify({"status": "OK"})
 
 
 # local webserver
