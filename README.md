@@ -1,5 +1,5 @@
 [![](https://github.com/qwc-services/qwc-registration-gui/workflows/build/badge.svg)](https://github.com/qwc-services/qwc-registration-gui/actions)
-[![](https://img.shields.io/docker/pulls/sourcepole/qwc-registration-gui)](https://hub.docker.com/repository/docker/sourcepole/qwc-registration-gui)
+[![](https://img.shields.io/docker/pulls/sourcepole/qwc-registration-gui)](https://hub.docker.com/r/sourcepole/qwc-registration-gui)
 
 Registration GUI for QWC Services
 =================================
