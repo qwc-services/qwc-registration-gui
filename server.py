@@ -3,11 +3,10 @@ import os
 
 from flask import Flask, json, jsonify
 from flask_bootstrap import Bootstrap
-from flask_jwt_extended import get_jwt_identity, jwt_optional
 from flask_mail import Mail
 from flask_wtf.csrf import CSRFProtect
 
-from qwc_services_core.jwt import jwt_manager
+from qwc_services_core.auth import auth_manager, optional_auth, get_identity
 from registration_gui import RegistrationGUI
 
 
@@ -21,7 +20,7 @@ CSRFProtect(app)
 Bootstrap(app)
 
 # Setup the Flask-JWT-Extended extension
-jwt = jwt_manager(app)
+jwt = auth_manager(app)
 
 
 # Setup mailer
@@ -96,9 +95,9 @@ registration_gui = RegistrationGUI(mail, i18n, app.logger)
 
 
 @app.route('/register', methods=['GET', 'POST'])
-@jwt_optional
+@optional_auth
 def register():
-    return registration_gui.register(get_jwt_identity())
+    return registration_gui.register(get_identity())
 
 
 """ readyness probe endpoint """
