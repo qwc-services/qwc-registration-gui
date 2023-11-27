@@ -79,7 +79,7 @@ Install Python module for PostgreSQL:
 
 Create a virtual environment:
 
-    virtualenv --python=/usr/bin/python3 .venv
+    python3 -m venv .venv
 
 Activate virtual environment:
 
