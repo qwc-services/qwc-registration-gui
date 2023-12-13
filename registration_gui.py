@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 import os
 
 from flask import abort, flash, Flask, redirect, render_template, url_for
@@ -123,7 +123,7 @@ class RegistrationGUI:
             if form.validate():
                 if form.groups.data or form.unsubscribe_groups.data:
                     # use same creation time for all requests in the form
-                    created_at = datetime.utcnow()
+                    created_at = datetime.datetime.now(datetime.UTC)
 
                     session = self.session()
 
