@@ -30,14 +30,14 @@ def mail_config_from_env(app):
     app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
     app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', 25))
     app.config['MAIL_USE_TLS'] = os.environ.get(
-        'MAIL_USE_TLS', 'False') == 'True'
+        'MAIL_USE_TLS', 'False').lower() == 'true'
     app.config['MAIL_USE_SSL'] = os.environ.get(
-        'MAIL_USE_SSL', 'False') == 'True'
+        'MAIL_USE_SSL', 'False').lower() == 'true'
     app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER')
     app.config['MAIL_DEBUG'] = int(os.environ.get('MAIL_DEBUG', app.debug))
     app.config['MAIL_MAX_EMAILS'] = os.environ.get('MAIL_MAX_EMAILS')
     app.config['MAIL_SUPPRESS_SEND'] = os.environ.get(
-        'MAIL_SUPPRESS_SEND', str(app.testing)) == 'True'
+        'MAIL_SUPPRESS_SEND', str(app.testing)).lower() == 'true'
     app.config['MAIL_ASCII_ATTACHMENTS'] = os.environ.get(
         'MAIL_ASCII_ATTACHMENTS', False)
 
