@@ -6,7 +6,7 @@ Registration GUI for QWC Services
 
 Provides an application form, so users can submit group membership requests.
 
-These membership requests can then be approved or declined by an admin user in the [QWC configuration backend](https://github.com/qwc-services/qwc-admin-gui).
+These membership requests can then be approved or declined by an admin user in the [QWC configuration backend](https://github.com/qwc-services/qwc-admin-gui) (if `GROUP_REGISTRATION_ENABLED` is set to `true` in the `qwc-admin-gui` configuration).
 
 
 Setup
