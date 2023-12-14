@@ -5,7 +5,7 @@ from flask import abort, flash, Flask, redirect, render_template, url_for
 from flask_mail import Message
 from sqlalchemy.orm import joinedload
 
-from qwc_config_db.config_models import ConfigModels
+from qwc_services_core.config_models import ConfigModels
 from qwc_services_core.database import DatabaseEngine
 from forms import RegistrationForm
 

@@ -2,7 +2,7 @@ import logging
 import os
 
 from flask import Flask, json, jsonify
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap5
 from flask_mail import Mail
 from flask_wtf.csrf import CSRFProtect
 
@@ -17,7 +17,7 @@ app.secret_key = os.environ.get('JWT_SECRET_KEY', os.urandom(24))
 # enable CSRF protection
 CSRFProtect(app)
 # load Bootstrap extension
-Bootstrap(app)
+Bootstrap5(app)
 
 # Setup the Flask-JWT-Extended extension
 jwt = auth_manager(app)

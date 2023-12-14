@@ -1,28 +1,31 @@
-{% import "bootstrap/utils.html" as utils %}
-{% extends "bootstrap/base.html" %}
+{% import "bootstrap5/utils.html" as utils %}
 
-{%- block head %}
-  <title>{% block title %}{% endblock title %}</title>
+<!doctype html>
+<html lang="en">
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  {%- block metas %}
-    {{ super() }}
-  {%- endblock metas %}
+  <!-- Styles -->
+  {{ bootstrap.load_css() }}
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  {% block styles %}{% endblock %}
+</head>
+<body>
+  <!-- Page content -->
+  {% block content %}
+    <br/>
+    {{ utils.render_messages() }}
 
-  {%- block styles %}
-    {{ super() }}
-    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-  {%- endblock styles %}
-{%- endblock head %}
+    <div class="container">
+      {% block container %}
+      {% endblock %}
+    </div>
+  {% endblock %}
 
-{% block navbar %}
-{% endblock %}
-
-{% block content %}
-  <br/>
-  {{ utils.flashed_messages() }}
-
-  <div class="container">
-    {% block container %}
-    {% endblock %}
-  </div>
-{% endblock %}
+  <!-- Extra scripts from derived templates -->
+  {% block scripts %}
+  {% endblock %}
+</body>
+</html>
