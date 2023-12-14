@@ -1,7 +1,7 @@
 import logging
 import os
 
-from flask import Flask, json, jsonify
+from flask import Flask, json, jsonify, redirect, request
 from flask_bootstrap import Bootstrap5
 from flask_mail import Mail
 from flask_wtf.csrf import CSRFProtect
@@ -9,6 +9,9 @@ from flask_wtf.csrf import CSRFProtect
 from qwc_services_core.auth import auth_manager, optional_auth, get_identity
 from registration_gui import RegistrationGUI
 
+
+AUTH_PATH = os.environ.get('AUTH_PATH', '/auth')
+SKIP_LOGIN = os.environ.get('SKIP_LOGIN', False)
 
 # Flask application
 app = Flask(__name__)
@@ -90,9 +93,21 @@ def i18n(value, locale=DEFAULT_LOCALE):
     return lookup
 
 
+def auth_path_prefix():
+    # e.g. /admin/org1/auth
+    return app.session_interface.tenant_path_prefix().rstrip("/") + "/" + AUTH_PATH.lstrip("/")
+
 # create Registration GUI
 registration_gui = RegistrationGUI(mail, i18n, app.logger)
 
+@app.before_request
+@optional_auth
+def assert_identity():
+    identity = get_identity()
+    if not identity:
+        app.logger.info("Redirecting to login")
+        prefix = auth_path_prefix()
+        return redirect(prefix + '/login?url=%s' % request.url)
 
 @app.route('/register', methods=['GET', 'POST'])
 @optional_auth
