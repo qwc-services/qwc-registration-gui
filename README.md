@@ -37,6 +37,7 @@ Configuration
 Set the `ADMIN_RECIPIENTS` environment variable to a comma separated list of admin users who should be notified of new registration requests (default: `None`).
 
 [Flask-Mail](https://pythonhosted.org/Flask-Mail/) is used for sending mails like admin notifications. These are the available options:
+
 * `MAIL_SERVER`: default ‘localhost’
 * `MAIL_PORT`: default 25
 * `MAIL_USE_TLS`: default False
