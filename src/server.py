@@ -17,15 +17,20 @@ SKIP_LOGIN = os.environ.get('SKIP_LOGIN', False)
 
 # Flask application
 app = Flask(__name__)
+
+jwt = auth_manager(app)
 app.secret_key = os.environ.get('JWT_SECRET_KEY', os.urandom(24))
+
+# JWT CSRF protection conflicts with WTF CSRF protection
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+app.config['WTF_CSRF_SSL_STRICT'] = os.environ.get(
+    'WTF_CSRF_SSL_STRICT', 'True').lower() == 'true'
 
 # enable CSRF protection
 CSRFProtect(app)
 # load Bootstrap extension
 Bootstrap5(app)
 
-# Setup the Flask-JWT-Extended extension
-jwt = auth_manager(app)
 
 
 # Setup mailer
