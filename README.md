@@ -64,7 +64,7 @@ Usage
 
 Run standalone application:
 
-    python server.py
+    python src/server.py
 
 Registration form (if user is signed in):
 
@@ -92,4 +92,4 @@ Install requirements:
 
 Start local service:
 
-    MAIL_SUPPRESS_SEND=True MAIL_DEFAULT_SENDER=from@example.com ADMIN_RECIPIENTS=admin@example.com python server.py
+    MAIL_SUPPRESS_SEND=True MAIL_DEFAULT_SENDER=from@example.com ADMIN_RECIPIENTS=admin@example.com python src/server.py
