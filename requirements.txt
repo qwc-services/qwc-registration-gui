@@ -6,6 +6,6 @@ Flask-Mail2==1.0.2
 Flask-WTF==1.2.1
 flask_login==0.6.3
 psycopg2==2.9.9
-SQLAlchemy==2.0.23
+SQLAlchemy==2.0.29
 email_validator==2.1.0.post1
 qwc-services-core==1.3.26
