@@ -1,5 +1,5 @@
 Flask==3.0.0
-Werkzeug==3.0.1
+Werkzeug==3.0.3
 Bootstrap-Flask==2.3.3
 Flask-JWT-Extended==4.6.0
 Flask-Mail2==1.0.2
