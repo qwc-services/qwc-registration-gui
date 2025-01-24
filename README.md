@@ -74,22 +74,6 @@ Registration form (if user is signed in):
 Development
 -----------
 
-Install Python module for PostgreSQL:
+Install dependencies and run service:
 
-    apt-get install python3-psycopg2
-
-Create a virtual environment:
-
-    python3 -m venv .venv
-
-Activate virtual environment:
-
-    source .venv/bin/activate
-
-Install requirements:
-
-    pip install -r requirements.txt
-
-Start local service:
-
-    MAIL_SUPPRESS_SEND=True MAIL_DEFAULT_SENDER=from@example.com ADMIN_RECIPIENTS=admin@example.com python src/server.py
+    MAIL_SUPPRESS_SEND=True MAIL_DEFAULT_SENDER=from@example.com ADMIN_RECIPIENTS=admin@example.com uv run src/server.py
