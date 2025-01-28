@@ -26,6 +26,9 @@ app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['WTF_CSRF_SSL_STRICT'] = os.environ.get(
     'WTF_CSRF_SSL_STRICT', 'True').lower() == 'true'
 
+# create tenant handler
+tenant_handler = TenantHandler(app.logger)
+
 # enable CSRF protection
 CSRFProtect(app)
 # load Bootstrap extension
@@ -107,8 +110,15 @@ def auth_path_prefix():
     # e.g. /admin/org1/auth
     return app.session_interface.tenant_path_prefix().rstrip("/") + "/" + AUTH_PATH.lstrip("/")
 
-# create Registration GUI
-registration_gui = RegistrationGUI(mail, i18n, app.logger)
+
+def registration_gui_handler():
+    """Get or create a RegistrationGUI instance for a tenant."""
+    tenant = tenant_handler.tenant()
+    handler = tenant_handler.handler('registrationGui', 'registrationGui', tenant)
+    if handler is None:
+        handler = tenant_handler.register_handler(
+            'registrationGui', tenant, RegistrationGUI(mail, i18n, app.logger))
+    return handler
 
 @app.before_request
 @optional_auth
@@ -122,6 +132,8 @@ def assert_identity():
 @app.route('/register', methods=['GET', 'POST'])
 @optional_auth
 def register():
+    registration_gui = registration_gui_handler()
+
     return registration_gui.register(get_identity())
 
 
