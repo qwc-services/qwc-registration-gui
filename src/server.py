@@ -28,6 +28,8 @@ app.config['WTF_CSRF_SSL_STRICT'] = os.environ.get(
 
 # create tenant handler
 tenant_handler = TenantHandler(app.logger)
+app.wsgi_app = TenantPrefixMiddleware(app.wsgi_app)
+app.session_interface = TenantSessionInterface()
 
 # enable CSRF protection
 CSRFProtect(app)
@@ -101,10 +103,6 @@ def i18n(value, locale=DEFAULT_LOCALE):
             break
 
     return lookup
-
-
-app.wsgi_app = TenantPrefixMiddleware(app.wsgi_app)
-app.session_interface = TenantSessionInterface(os.environ)
 
 def auth_path_prefix():
     # e.g. /admin/org1/auth
