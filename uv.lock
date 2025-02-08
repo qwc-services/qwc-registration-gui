@@ -310,7 +310,7 @@ wheels = [
 
 [[package]]
 name = "qwc-registration-gui"
-version = "2025.1.28"
+version = "2025.2.8"
 source = { virtual = "." }
 dependencies = [
     { name = "bootstrap-flask" },
