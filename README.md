@@ -71,6 +71,12 @@ Registration form (if user is signed in):
     http://localhost:5032/register
 
 
+Docker usage
+------------
+
+See sample [docker-compose.yml](https://github.com/qwc-services/qwc-docker/blob/master/docker-compose-example.yml) of [qwc-docker](https://github.com/qwc-services/qwc-docker).
+
+
 Development
 -----------
 
