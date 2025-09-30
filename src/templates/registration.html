@@ -49,7 +49,7 @@
               <td>
                 <b class="text-muted">{{ rg['title'] }}</b>
               </td>
-              <td>{{ rg['description'] | safe }}</td>
+              <td>{{ rg['description'] }}</td>
               <td><button type="button" class="btn btn-secondary" disabled>{{ utils.render_icon('hourglass') }} {{ "registration.pending" | i18n }}</button>
             </tr>
           {% elif rg['member'] %}
@@ -57,7 +57,7 @@
               <td>
                 <b class="text-muted">{{ rg['title'] }}</b>
               </td>
-              <td>{{ rg['description'] | safe }}</td>
+              <td>{{ rg['description'] }}</td>
               <td>
                 <input type="checkbox" class="btn-check" id={{ rg['id'] }} autocomplete="off" name="unsubscribe_groups" value="{{ rg['id'] }}">
                 <label class="btn btn-outline-secondary" for={{ rg['id'] }}>{{ utils.render_icon('dash-lg') }}{{ "registration.unsubscribe" | i18n }}</label>
@@ -68,7 +68,7 @@
               <td>
                 <b class="text-muted">{{ rg['title'] }}</b>
               </td>
-              <td>{{ rg['description'] | safe }}</td>
+              <td>{{ rg['description'] }}</td>
               <td>
                 <input type="checkbox" class="btn-check" id={{ rg['id'] }} autocomplete="off" name="groups" value="{{ rg['id'] }}">
                 <label class="btn btn-outline-secondary" for={{ rg['id'] }}>{{ utils.render_icon('plus-lg') }} {{ "registration.subscribe" | i18n }}</label>
