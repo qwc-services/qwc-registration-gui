@@ -7,6 +7,7 @@ from flask_mail import Mail
 from flask_wtf.csrf import CSRFProtect
 
 from qwc_services_core.auth import auth_manager, optional_auth, get_identity
+from qwc_services_core.runtime_config import RuntimeConfig
 from qwc_services_core.tenant_handler import TenantHandler, \
     TenantPrefixMiddleware, TenantSessionInterface
 from registration_gui import RegistrationGUI
@@ -105,8 +106,11 @@ def i18n(value, locale=DEFAULT_LOCALE):
     return lookup
 
 def auth_path_prefix():
-    # e.g. /admin/org1/auth
-    return app.session_interface.tenant_path_prefix().rstrip("/") + "/" + AUTH_PATH.lstrip("/")
+    tenant = tenant_handler.tenant()
+    config_handler = RuntimeConfig("registrationGui", app.logger)
+    config = config_handler.tenant_config(tenant)
+    auth_path = config.get('auth_service_url', '/auth/')
+    return app.session_interface.tenant_path_prefix().rstrip("/") + "/" + auth_path.lstrip("/")
 
 
 def registration_gui_handler():
