@@ -32,25 +32,24 @@ Place this file in your home directory, or set the `PGSERVICEFILE` environment v
 Configuration
 -------------
 
-### Mailer
+The following environment variables are supported:
 
-Set the `ADMIN_RECIPIENTS` environment variable to a comma separated list of admin users who should be notified of new registration requests (default: `None`).
+| Name                         | Default       | Description                                                                               |
+|------------------------------|---------------|-------------------------------------------------------------------------------------------|
+| `ADMIN_RECIPIENTS`           | `None`        | Comma separated list of admin users who should be notified of new registration requests.  |
+| `DEFAULT_LOCALE`             | `en`          | Admin GUI language (see [src/translations](src/translations) for available languages).    |
+| `MAIL_SERVER`                | `localhost`   | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_PORT`                  | `25`          | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_USE_TLS`               | `False`       | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_USE_SSL`               | `False`       | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_DEBUG`                 | `app.debug`   | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_USERNAME`              | `None`        | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_PASSWORD`              | `None`        | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_DEFAULT_SENDER`        | `None`        | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_MAX_EMAILS`            | `None`        | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_SUPPRESS_SEND`         | `app.testing` | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
+| `MAIL_ASCII_ATTACHMENTS`     | `False`       | Mailer setup, see [Flask-Mail](https://flask-mail.readthedocs.io/en/latest/#configuring). |
 
-[Flask-Mail](https://pythonhosted.org/Flask-Mail/) is used for sending mails like admin notifications. These are the available options:
-
-* `MAIL_SERVER`: default ‘localhost’
-* `MAIL_PORT`: default 25
-* `MAIL_USE_TLS`: default False
-* `MAIL_USE_SSL`: default False
-* `MAIL_DEBUG`: default app.debug
-* `MAIL_USERNAME`: default None
-* `MAIL_PASSWORD`: default None
-* `MAIL_DEFAULT_SENDER`: default None
-* `MAIL_MAX_EMAILS`: default None
-* `MAIL_SUPPRESS_SEND`: default app.testing
-* `MAIL_ASCII_ATTACHMENTS`: default False
-
-In addition the standard Flask `TESTING` configuration option is used by Flask-Mail in unit tests.
 
 ### Translations
 
@@ -59,27 +58,20 @@ Translation strings are stored in a JSON file for each locale in `translations/<
 Set the `DEFAULT_LOCALE` environment variable to choose the locale for the application form and notifications (default: `en`).
 
 
-Usage
------
+Run locally
+-----------
 
-Run standalone application:
+Install dependencies and run:
 
-    python src/server.py
+    uv run src/server.py
 
-Registration form (if user is signed in):
+Set `FLASK_DEBUG=1` for additional debug output.
 
-    http://localhost:5032/register
-
+Set `FLASK_RUN_PORT=<port>` to change the default port (default: `5000`).
 
 Docker usage
 ------------
 
+The Docker image is published on [Dockerhub](https://hub.docker.com/r/sourcepole/qwc-registration-gui).
+
 See sample [docker-compose.yml](https://github.com/qwc-services/qwc-docker/blob/master/docker-compose-example.yml) of [qwc-docker](https://github.com/qwc-services/qwc-docker).
-
-
-Development
------------
-
-Install dependencies and run service:
-
-    MAIL_SUPPRESS_SEND=True MAIL_DEFAULT_SENDER=from@example.com ADMIN_RECIPIENTS=admin@example.com uv run src/server.py
