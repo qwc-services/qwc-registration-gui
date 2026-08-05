@@ -1,6 +1,6 @@
 [project]
 name = "qwc-registration-gui"
-version = "v2026.07.01"
+version = "v2026.08.05"
 description = "Registration GUI for QWC Services"
 readme = "README.md"
 requires-python = ">=3.10"
